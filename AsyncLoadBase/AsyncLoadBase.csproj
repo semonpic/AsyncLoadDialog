@@ -42,8 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsyncLoad.cs" />
+    <Compile Include="eProcessState.cs" />
     <Compile Include="IAsyncLoad.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProcessResult.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

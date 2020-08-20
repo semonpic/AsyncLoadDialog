@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AsyncLoadBase
 {
-   public abstract class AsyncLoad:IAsyncLoad
+    public enum eProcessState
     {
-        public abstract void Worker(object sender, DoWorkEventArgs e);
+        Working=0,
+        Compelete=1,
+        Fail=2,
+        Cancel=3,
     }
 }

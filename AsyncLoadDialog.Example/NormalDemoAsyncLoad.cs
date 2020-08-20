@@ -1,6 +1,7 @@
 ﻿using AsyncLoadBase;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -10,30 +11,43 @@ namespace AsyncLoadDialog.Example
 {
     class NormalDemoAsyncLoad : AsyncLoad
     {
-        public override void Worker()
+ 
+
+        public override void Worker(object sender, DoWorkEventArgs e)
         {
+            BackgroundWorker backgroundWorker = sender as BackgroundWorker;
+
+
             Thread.Sleep(1000);
-            UpdatePrecent(10);
+            backgroundWorker.ReportProgress(10, new ProcessResult() { ProcessState = eProcessState.Working});
             Thread.Sleep(1000);
-            UpdatePrecent(20);
+            backgroundWorker.ReportProgress(20, new ProcessResult() { ProcessState = eProcessState.Working});
+            Thread.Sleep(1000);                 
+            backgroundWorker.ReportProgress(30, new ProcessResult() { ProcessState = eProcessState.Working});
+            Thread.Sleep(1000);                
+            backgroundWorker.ReportProgress(40, new ProcessResult() { ProcessState = eProcessState.Working});
+            Thread.Sleep(1000);               
+            backgroundWorker.ReportProgress(50, new ProcessResult() { ProcessState = eProcessState.Working});
+            Thread.Sleep(1000);               
+            backgroundWorker.ReportProgress(60, new ProcessResult() { ProcessState = eProcessState.Working});
             Thread.Sleep(1000);
-            UpdatePrecent(30);
+            backgroundWorker.ReportProgress(70, new ProcessResult() { ProcessState = eProcessState.Working });
             Thread.Sleep(1000);
-            UpdatePrecent(40);
+            backgroundWorker.ReportProgress(80, new ProcessResult() { ProcessState = eProcessState.Working });
             Thread.Sleep(1000);
-            UpdatePrecent(50);
+
+            //If User Cancel
+            if (backgroundWorker.CancellationPending)
+            {
+                backgroundWorker.ReportProgress(80, new ProcessResult() { ProcessState = eProcessState.Cancel });
+            }
+            backgroundWorker.ReportProgress(90, new ProcessResult() { ProcessState = eProcessState.Working });
             Thread.Sleep(1000);
-            UpdatePrecent(60);
-            Thread.Sleep(1000);
-            UpdatePrecent(70);
-            Thread.Sleep(1000);
-            UpdatePrecent(80);
-            Thread.Sleep(1000);
-            UpdatePrecent(90);
-            Thread.Sleep(1000);
-            UpdatePrecent(100);
+            backgroundWorker.ReportProgress(100, new ProcessResult() { ProcessState = eProcessState.Working });
             Thread.Sleep(500);
-            LoadCompelete("DemoAsyncLoad");//Return the object we load
+            //Work Compelete,Return By Set Content And ProcessState eProcessState.Compelete
+
+            backgroundWorker.ReportProgress(100, new ProcessResult() { ProcessState = eProcessState.Compelete,Content="Loaded Data"});
         }
     }
 }

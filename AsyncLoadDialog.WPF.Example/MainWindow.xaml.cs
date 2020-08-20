@@ -33,9 +33,12 @@ namespace AsyncLoadDialog.WPF.Example
 
             if (res.HasValue && res == true)
             {
-                MessageBox.Show("Load Complete");
+                MessageBox.Show("Load Complete:Data is " + asyncLoadForm.ReturnObj.ToString());
             }
-            
+            else
+            {
+                MessageBox.Show("Load Fail");
+            }
 
         }
 
@@ -47,7 +50,11 @@ namespace AsyncLoadDialog.WPF.Example
 
             if (res.HasValue && res == true)
             {
-                MessageBox.Show("Load Complete");
+                MessageBox.Show("Load Complete:Data is " + asyncLoadForm.ReturnObj.ToString());
+            }
+            else
+            {
+                MessageBox.Show("Load Fail");
             }
 
         }

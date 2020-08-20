@@ -2,6 +2,7 @@
 using AsyncLoadBase;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -29,6 +30,7 @@ namespace AsyncLoadDialog.WPF
 
         private AsyncLoad asyncLoadBase = null;
 
+        private BackgroundWorker bw = new BackgroundWorker();
         public AsyncLoadForm()
         {
             InitializeComponent();
@@ -36,6 +38,8 @@ namespace AsyncLoadDialog.WPF
         public AsyncLoadForm(AsyncLoad asyncLoadBase)
         {
             InitializeComponent();
+            bw.WorkerReportsProgress = true;
+            bw.WorkerSupportsCancellation = true;
             this.asyncLoadBase = asyncLoadBase;
         }
 
@@ -80,24 +84,71 @@ namespace AsyncLoadDialog.WPF
         {
             if (asyncLoadBase != null)
             {
-                asyncLoadBase.loadCompeleteHandle += new LoadCompeleteHandle(WorkCompelete);
-                asyncLoadBase.loadFaitHandle += new LoadFaitHandle(WorkFail);
-                asyncLoadBase.updatePrecentHandle += new UpdatePrecentHandle(UpdatePrecent);
-                Thread thread = new Thread(new ThreadStart(asyncLoadBase.Worker));
-                thread.Name = "AsyncLoadThread";
-                thread.IsBackground = true;
-                thread.Start();
+                //asyncLoadBase.loadCompeleteHandle += new LoadCompeleteHandle(WorkCompelete);
+                //asyncLoadBase.loadFaitHandle += new LoadFaitHandle(WorkFail);
+                //asyncLoadBase.updatePrecentHandle += new UpdatePrecentHandle(UpdatePrecent);
+                //Thread thread = new Thread(new ThreadStart(asyncLoadBase.Worker));
+                //thread.Name = "AsyncLoadThread";
+                //thread.IsBackground = true;
+                //thread.Start();
+
+                bw.WorkerReportsProgress = true;
+                bw.WorkerSupportsCancellation = true;
+                bw.DoWork += new DoWorkEventHandler(asyncLoadBase.Worker);
+                bw.ProgressChanged += Bw_ProgressChanged;
+                bw.RunWorkerAsync();
             }
         }
+        private void Bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
 
+            try
+            {
+                int precent = e.ProgressPercentage;
+                this.processBar.Value = precent;
+                ProcessResult processResult = e.UserState as ProcessResult;
+                if (processResult != null)
+                {
+                    if (processResult.ProcessState == eProcessState.Cancel)
+                    {
+                        ReturnObj = null;
+                        this.DialogResult = false;
+                    }
+                    else if (processResult.ProcessState == eProcessState.Fail)
+                    {
+                        ReturnObj = null;
+                        this.DialogResult = false;
+                    }
+                    else if (processResult.ProcessState == eProcessState.Compelete)
+                    {
+                        ReturnObj = processResult.Content;
+                        this.DialogResult = true;
+                    }
+                }
+
+            }
+            catch (Exception exp)
+            { 
+            
+            }
+            
+
+        }
         private void Window_Closed(object sender, EventArgs e)
         {
             if (asyncLoadBase != null)
             {
-                asyncLoadBase.loadCompeleteHandle -= new LoadCompeleteHandle(WorkCompelete);
-                asyncLoadBase.loadFaitHandle -= new LoadFaitHandle(WorkFail);
-                asyncLoadBase.updatePrecentHandle -= new UpdatePrecentHandle(UpdatePrecent);
+                bw.DoWork -= new DoWorkEventHandler(asyncLoadBase.Worker);
             }
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            if (bw.WorkerSupportsCancellation == true)
+            {
+                bw.CancelAsync();
+            }
+
         }
     }
 }

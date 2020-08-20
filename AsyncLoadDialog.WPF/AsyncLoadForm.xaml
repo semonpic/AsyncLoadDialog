@@ -52,11 +52,12 @@
             Content="{Binding Path=Value, ElementName=processBar, Converter={StaticResource Double2Percentage}}"
             FontSize="25" />
         <Button
+            x:Name="btnCancel"
             Grid.Row="2"
             Grid.Column="1"
             Width=" 60"
-            Content="Cancel"
-            IsCancel="True" />
+            Click="btnCancel_Click"
+            Content="Cancel" />
 
     </Grid>
 </Window>
