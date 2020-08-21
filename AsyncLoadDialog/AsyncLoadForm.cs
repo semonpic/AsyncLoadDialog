@@ -34,7 +34,6 @@ namespace AsyncLoadDialog
        
         private void AsynLoadForm_Load(object sender, EventArgs e)
         {
-            this.CancelButton = (IButtonControl)btnCancel;
             this.FormBorderStyle = FormBorderStyle.None;//设置无标题栏
             if (asyncLoadBase != null)
             {
@@ -85,6 +84,12 @@ namespace AsyncLoadDialog
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            if (bw.WorkerSupportsCancellation == true)
+            {
+                bw.CancelAsync();
+                ReturnObj = null;
+                this.DialogResult = DialogResult.Cancel;
+            }
 
         }
     }

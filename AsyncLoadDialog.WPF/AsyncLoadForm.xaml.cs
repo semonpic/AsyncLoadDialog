@@ -147,8 +147,9 @@ namespace AsyncLoadDialog.WPF
             if (bw.WorkerSupportsCancellation == true)
             {
                 bw.CancelAsync();
+                ReturnObj = null;
+                this.DialogResult = false;
             }
-
         }
     }
 }
