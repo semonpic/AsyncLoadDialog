@@ -19,7 +19,7 @@ namespace AsyncLoadDialog.Example
 
         private void button1_Click(object sender, EventArgs e)
         {
-            NormalDemoAsyncLoad normalDemoAsyncLoad = new NormalDemoAsyncLoad();
+            DemoAsyncLoad normalDemoAsyncLoad = new DemoAsyncLoad();
             AsyncLoadForm asyncLoadForm = new AsyncLoadForm(normalDemoAsyncLoad);
             asyncLoadForm.StartPosition = FormStartPosition.CenterScreen;
             DialogResult res = asyncLoadForm.ShowDialog();
@@ -39,8 +39,13 @@ namespace AsyncLoadDialog.Example
 
             if (res == DialogResult.OK)
             {
-                MessageBox.Show("Load Complete");
+                object loadedObj = asyncLoadForm.ReturnObj;
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
