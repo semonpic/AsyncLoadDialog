@@ -1,6 +1,11 @@
 # AsyncLoadDialog
 **A tool help to  provide a async loading dialog when Perform time-consuming operations，support WinForm and WPF**
 
+![image](https://github.com/semonpic/AsyncLoadDialog/blob/master/img/winform.png)
+
+![image](https://github.com/semonpic/AsyncLoadDialog/blob/master/img/wpfexample.png)
+
+
 When we perform a time-consuming operation,we need Pop up a  friendly Mode dialog which show the Progress of work,such as download a large file.
 How to simplify this work，AsyncLoadDialog Will Help。
 With The Help Of AsyncLoadDialog,we only need Foucus On our main job,Do not care about how to control the progress bar, cancel operations and so on。
@@ -63,6 +68,5 @@ Only Need Two Step
                 //TODO
                 
             }
-
 
 
